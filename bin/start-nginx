@@ -15,12 +15,14 @@ run-nginx() {
     declare -A pids signals
 
     set-vars
+    display-vars
 
     # Evaluate configs to get $PORT
     for c in config/*.conf.erb; do
         erb $c > ${c%.erb}
     done
 
+    
     # Use named pipe to detect exit of any subprocess.
     rm -f "$psmgr"
     mkfifo "$psmgr"
@@ -160,6 +162,14 @@ set-vars() {
     PORT=$NGINX_SOCKET
 
     export ${!NGINX_*} PORT
+}
+
+display-vars() {
+    echo "NGINX_ENABLED $NGINX_ENABLED"
+    echo "NGINX_LISTEN $NGINX_LISTEN"
+    echo "NGINX_SOCKET $NGINX_SOCKET"
+    echo "NGINX_WAIT_ENABLED $NGINX_WAIT_ENABLED"
+    echo "PORT $PORT"
 }
 
 expand-types() {
