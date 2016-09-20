@@ -33,18 +33,23 @@ http {
   upstream play-backend {
      server 127.0.0.1:9000;
   }
+  upstream wordpress-backend {
+     server test1238173.wordpress.com;
+  }
 
   server {
     listen <%= ENV['NGINX_LISTEN'] %>;
     server_name _;
     location /blog {
-      rewrite ^/blog/(.*)$ /$1 break;
+#      rewrite ^/blog/(.*)$ /$1 break;
 
-      proxy_set_header X-Real-IP  $remote_addr;
-      proxy_set_header X-Forwarded-For $remote_addr;
-      proxy_set_header Host $host;
-      proxy_pass http://test1238173.wordpress.com;    
-      proxy_redirect off;       
+#      proxy_set_header X-Real-IP  $remote_addr;
+#      proxy_set_header X-Forwarded-For $remote_addr;
+#      proxy_set_header Host $host;
+#      proxy_pass http://test1238173.wordpress.com;    
+#      proxy_redirect off;       
+       proxy_pass http://wordpress-backend;
+  
     }
     location / {
        proxy_pass http://play-backend;
