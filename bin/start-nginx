@@ -22,6 +22,8 @@ run-nginx() {
         erb $c > ${c%.erb}
     done
 
+    echo "NGINX CONFIG...."
+    cat config/nginx.conf
     
     # Use named pipe to detect exit of any subprocess.
     rm -f "$psmgr"
