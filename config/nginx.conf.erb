@@ -47,15 +47,9 @@ http {
       proxy_set_header X-Real-IP  $remote_addr;
       proxy_set_header X-Forwarded-For $remote_addr;
       proxy_pass http://test1238173.wordpress.com;    
-      #proxy_redirect off;       
+      proxy_redirect default;       
       #proxy_pass http://wordpress-backend;
-        proxy_intercept_errors on;
-        error_page 301 302 307 = @handle_redirects;
-    }
 
-    location @handle_redirects {
-        set $saved_redirect_location '$upstream_http_location';
-        proxy_pass $saved_redirect_location;
     }
     location / {
        proxy_pass http://play-backend;
