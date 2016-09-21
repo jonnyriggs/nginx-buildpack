@@ -149,19 +149,15 @@ aux-start() {
 set-vars() {
     : ${NGINX_ENABLED:=1}
     : ${NGINX_LISTEN:=$PORT}
-    : ${NGINX_SOCKET:=9001}
+    : ${NGINX_APP_PORT:=9001}
     : ${NGINX_WAIT_ENABLED:=1}
     : ${NGINX_WORKERS:=4}
     NGINX_GZIP_ENABLED=$(norm-enabled "${NGINX_GZIP_ENABLED:-1}")
     : ${NGINX_GZIP_PROXIED:=any}
     NGINX_GZIP_TYPES=$(expand-types "${NGINX_GZIP_TYPES:-plain css javascript json xml atom+xml rss+xml}")
 
-    if [[ $NGINX_SOCKET == /* ]]; then
-        NGINX_SOCKET=unix:$NGINX_SOCKET
-    fi
-
     # Override $PORT for the app
-    PORT=$NGINX_SOCKET
+    PORT=$NGINX_APP_PORT
 
     export ${!NGINX_*} PORT
 }
@@ -169,7 +165,7 @@ set-vars() {
 display-vars() {
     echo "NGINX_ENABLED $NGINX_ENABLED"
     echo "NGINX_LISTEN $NGINX_LISTEN"
-    echo "NGINX_SOCKET $NGINX_SOCKET"
+    echo "NGINX_APP_PORT $NGINX_APP_PORT"
     echo "NGINX_WAIT_ENABLED $NGINX_WAIT_ENABLED"
     echo "PORT $PORT"
 }

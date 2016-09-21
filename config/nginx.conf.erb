@@ -31,7 +31,7 @@ http {
 
 
   upstream play-backend {
-     server 127.0.0.1:9000;
+     server 127.0.0.1:<%= ENV['NGINX_APP_PORT'] %>;
   }
   upstream wordpress-backend {
      server test1238173.wordpress.com;
@@ -62,7 +62,7 @@ http {
   }
 
 #    upstream app_server {
-#        server <%= ENV['NGINX_SOCKET'] %> fail_timeout=0;
+#        server <%= ENV['NGINX_APP_PORT'] %> fail_timeout=0;
 #    }
 #
 #    server {
