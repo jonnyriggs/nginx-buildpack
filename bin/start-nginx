@@ -34,18 +34,12 @@ run-nginx() {
     app-start SIGTERM "$@"
     pid=$!
 
-    # Wait for app to start.
+    # Wait for app to start by checking if application port is open.
     if is-enabled "$NGINX_WAIT_ENABLED"; then
-        until nc -z 127.0.0.1 9000; do
+        until nc -z 127.0.0.1 $PORT; do
             at app-waiting
             sleep 1
         done
-
-
-#        while [[ ! -e "$NGINX_WAIT_FILE" ]]; do
-#            at app-waiting
-#            sleep 1
-#        done
         at app-initialized
     fi
 
@@ -155,8 +149,7 @@ aux-start() {
 set-vars() {
     : ${NGINX_ENABLED:=1}
     : ${NGINX_LISTEN:=$PORT}
-    : ${NGINX_SOCKET:=/tmp/nginx.socket}
-    : ${NGINX_WAIT_FILE:=$NGINX_SOCKET}
+    : ${NGINX_SOCKET:=9000}
     : ${NGINX_WAIT_ENABLED:=1}
     : ${NGINX_WORKERS:=4}
     NGINX_GZIP_ENABLED=$(norm-enabled "${NGINX_GZIP_ENABLED:-1}")
