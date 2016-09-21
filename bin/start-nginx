@@ -4,7 +4,7 @@ main() {
     if ! is-enabled "${NGINX_ENABLED:-1}"; then
         at nginx-disabled
         # Add heroku port to play exec instruction
-        exec "$@ -Dhttp.port=$PORT"
+        exec "$@" "-Dhttp.port=$PORT"
     fi
 
     at nginx-enabled
