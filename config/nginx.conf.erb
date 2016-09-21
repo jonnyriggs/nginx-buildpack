@@ -29,38 +29,6 @@ http {
     client_max_body_size 10M;
 
 
-
-  upstream play-backend {
-     server 127.0.0.1:<%= ENV['NGINX_APP_PORT'] %>;
-  }
-  upstream wordpress-backend {
-     server test1238173.wordpress.com;
-  }
-
-  server {
-    listen <%= ENV['NGINX_LISTEN'] %>;
-    server_name _;
-    location /blog {
-#      rewrite ^/blog/(.*)$ /$1 break;
-
-      proxy_set_header Host $proxy_host;               # Set the wordpress as host in the request
-      proxy_set_header X-Real-IP  $remote_addr;
-      proxy_set_header X-Forwarded-For $remote_addr;
-      proxy_pass https://test1238173.wordpress.com;    # Set the wordpress server as proxy_host    
-      proxy_redirect default;                          # Rewrite location in response  
-
-
-      sub_filter "test1238173.wordpress.com" "nginx-testx.herokuapp.com";
-      sub_filter_once off;
-      #proxy_pass http://wordpress-backend;
-
-    }
-    location / {
-       proxy_pass http://play-backend;
-    }
-
-  }
-
 #    upstream app_server {
 #        server <%= ENV['NGINX_APP_PORT'] %> fail_timeout=0;
 #    }

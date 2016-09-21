@@ -25,6 +25,8 @@ run-nginx() {
 
     echo "NGINX CONFIG...."
     cat config/nginx.conf
+    echo "NGINX CONFIG...."
+    cat config/nginx-local.conf
 
     # Use named pipe to detect exit of any subprocess.
     rm -f "$psmgr"
