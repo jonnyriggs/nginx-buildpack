@@ -36,10 +36,16 @@ run-nginx() {
 
     # Wait for app to start.
     if is-enabled "$NGINX_WAIT_ENABLED"; then
-        while [[ ! -e "$NGINX_WAIT_FILE" ]]; do
+        until [[ nc -z 127.0.0.1 9000 ]]; do
             at app-waiting
             sleep 1
         done
+
+
+#        while [[ ! -e "$NGINX_WAIT_FILE" ]]; do
+#            at app-waiting
+#            sleep 1
+#        done
         at app-initialized
     fi
 
