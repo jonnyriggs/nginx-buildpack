@@ -3,7 +3,8 @@
 main() {
     if ! is-enabled "${NGINX_ENABLED:-1}"; then
         at nginx-disabled
-        exec "$@"
+        # Add heroku port to play exec instruction
+        exec "$@ -Dhttp.port=$PORT"
     fi
 
     at nginx-enabled
@@ -24,7 +25,7 @@ run-nginx() {
 
     echo "NGINX CONFIG...."
     cat config/nginx.conf
-    
+
     # Use named pipe to detect exit of any subprocess.
     rm -f "$psmgr"
     mkfifo "$psmgr"
