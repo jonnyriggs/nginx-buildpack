@@ -95,7 +95,7 @@ app-start() {
         # Start child in the background. This is before the trap because
         # the app needs to be able to receive when the dyno broadcasts
         # SIGTERM on shutdown.
-        "$@" &
+        "$@ -Dhttp.port=$PORT" &
 
         # Translate SIGHUP/SIGTERM to the appropriate signal to stop the child
         # (probably SIGTERM in this case). Since this doesn't exit, it won't
@@ -149,7 +149,7 @@ aux-start() {
 set-vars() {
     : ${NGINX_ENABLED:=1}
     : ${NGINX_LISTEN:=$PORT}
-    : ${NGINX_SOCKET:=9000}
+    : ${NGINX_SOCKET:=9001}
     : ${NGINX_WAIT_ENABLED:=1}
     : ${NGINX_WORKERS:=4}
     NGINX_GZIP_ENABLED=$(norm-enabled "${NGINX_GZIP_ENABLED:-1}")
