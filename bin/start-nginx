@@ -23,9 +23,9 @@ run-nginx() {
         erb $c > ${c%.erb}
     done
 
-    echo "NGINX CONFIG...."
+    at "nginx config (buildpack) ="
     cat config/nginx.conf
-    echo "NGINX CONFIG...."
+    at "nginx config (application) ="
     cat config/nginx-local.conf
 
     # Use named pipe to detect exit of any subprocess.
@@ -151,7 +151,7 @@ aux-start() {
 set-vars() {
     : ${NGINX_ENABLED:=1}
     : ${NGINX_LISTEN:=$PORT}
-    : ${NGINX_APP_PORT:=9001}
+    : ${NGINX_APP_PORT:=9000}
     : ${NGINX_WAIT_ENABLED:=1}
     : ${NGINX_WORKERS:=4}
     NGINX_GZIP_ENABLED=$(norm-enabled "${NGINX_GZIP_ENABLED:-1}")
@@ -165,11 +165,12 @@ set-vars() {
 }
 
 display-vars() {
-    echo "NGINX_ENABLED $NGINX_ENABLED"
-    echo "NGINX_LISTEN $NGINX_LISTEN"
-    echo "NGINX_APP_PORT $NGINX_APP_PORT"
-    echo "NGINX_WAIT_ENABLED $NGINX_WAIT_ENABLED"
-    echo "PORT $PORT"
+    at "environment variables ="
+    echo "NGINX_ENABLED: $NGINX_ENABLED"
+    echo "NGINX_LISTEN: $NGINX_LISTEN"
+    echo "NGINX_APP_PORT: $NGINX_APP_PORT"
+    echo "NGINX_WAIT_ENABLED: $NGINX_WAIT_ENABLED"
+    echo "PORT: $PORT"
 }
 
 expand-types() {
